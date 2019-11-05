@@ -1,0 +1,86 @@
+<html>
+    <head>
+        <title>
+              Menu
+        </title>
+        <meta charset="UTF-8">
+        <link rel="icon" href="images.ico" type="image/icon type">
+        <link rel="stylesheet" type="text/css" href="assets/homestyle.css">
+        <script src="/assets/homejs.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script>
+       
+     
+      function readCookie(name) {
+    	let key = name + "=";
+    	let cookies = document.cookie.split(';');
+    	for (let i = 0; i < cookies.length; i++) {
+    		let cookie = cookies[i];
+    		while (cookie.charAt(0) === ' ') {
+                cookie = cookie.substring(1, cookie.length);
+            }
+    		if (cookie.indexOf(key) === 0) {
+                return cookie.substring(key.length, cookie.length);
+            }
+    	}
+    	return null;
+    } 
+    function deleteCookie(name) {
+        createCookie(name, "", -1);
+    }
+    
+    var name = readCookie('Name');
+    
+  
+    
+    </script>
+    <script>
+function showCustomer(item) {
+  $.ajax({
+    type:"POST",
+    dataType:"json",
+    contentType: "application/json",
+    data:JSON.stringify({item: item, name: name}),
+    url:"/add",
+})
+.done(function(response){
+      console.log("Response of update: ",response)
+})
+
+}
+</script>
+    </head>
+    <body>
+      <div id="sidebar" class="collapsed">
+        </div>
+            <div id="content">
+                    
+                    <ul style="border-bottom: none">
+                            <li>
+                            <a id="unique" class="btn" ><img src="assets/home.png" width="30px" height="30px"></a></li>
+                            <li><a  href="#" onclick="window.location.href='/orderp'"><img src="https://icon-library.net//images/back-button-icon-png/back-button-icon-png-16.jpg" width="30px" height="30px"></a></li>
+                            <li>
+                                <form action="/general" method="POST">
+                                <input class="symbol" id="search" type="text"  name="search" placeholder="Search...."> 
+                            </form>
+                        </li>
+                            <li style="float:right"><a href="#" onclick="window.location.href='/cart'"><img src="assets/shoppingcart.png" width="30px" height="30px" ></a></li>
+                          </ul>
+                          <br><br>
+                          <% data.forEach(function(item){ %>
+                            
+
+<div class="block" style="padding-top: none">
+                    <img class="imageonly1" src="<%= item.imageURL %>" width="auto" height="15%">
+                    <p class="para3"><font size=5px><%= item.name %></font> <br>
+                  
+                   <font color="red" >Rs <%= item.price %></font> | <font color="blue"> Save <%= item.discount %></font><br>
+                     <button class="btn1 btn3" onClick=" showCustomer('<%= JSON.stringify(item) %>')">Add to Bag</button>
+            </p>
+            </div>
+                          <% }); %>
+            
+           <br><br><br>
+            </div> 
+    </body>
+</html>
